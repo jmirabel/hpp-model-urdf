@@ -1,4 +1,4 @@
-// Copyright (C) 2012 by Antonio El Khoury.
+// Copyright (C) 2012 by Antonio El Khoury, Joseph Mirabel
 //
 // This file is part of the hpp-model-urdf.
 //
@@ -130,6 +130,20 @@ namespace hpp
 	}
         hppStopBenchmark (add_collision_pairs);
         hppDisplayBenchmark (add_collision_pairs);
+      }
+
+      void Parser::addJointGroups ()
+      {
+        typedef std::vector< ::srdf::Model::Group> Groups_t;
+        typedef std::vector<std::string> Strs_t;
+        const Groups_t& gs = srdfModel_.getGroups();
+        for (Groups_t::const_iterator _g = gs.begin(); _g != gs.end(); ++_g) {
+          JointGroup_t jg;
+          for (Strs_t::const_iterator _jn = _g->joints_.begin();
+              _jn != _g->joints_.end(); ++_jn)
+            jg.push_back (robot_->getJointByName (*_jn));
+          robot_->addJointGroup (_g->name_, jg);
+        }
       }
 
       bool
@@ -265,6 +279,8 @@ namespace hpp
       {
 	// Add collision pairs.
 	addCollisionPairs ();
+        // Add groups
+        addJointGroups ();
         HPP_DISPLAY_TIMECOUNTER(is_collision_pair_disabled);
         HPP_RESET_TIMECOUNTER(is_collision_pair_disabled);
       }

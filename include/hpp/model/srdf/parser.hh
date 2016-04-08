@@ -1,4 +1,4 @@
-// Copyright (C) 2012 by Antonio El Khoury.
+// Copyright (C) 2012 by Antonio El Khoury, Joseph Mirabel
 //
 // This file is part of the hpp-model-urdf.
 //
@@ -101,6 +101,9 @@ namespace hpp
       protected:
 	/// \brief Add collision pairs to robot.
 	void addCollisionPairs ();
+
+	/// \brief Add joint groups
+	void addJointGroups ();
 
 	/// \brief Check if given body pair is disabled.
 	bool isCollisionPairDisabled (const std::string& bodyName_1,
