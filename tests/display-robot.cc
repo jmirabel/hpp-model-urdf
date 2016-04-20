@@ -30,8 +30,9 @@ using boost::test_tools::output_test_stream;
 
 BOOST_AUTO_TEST_CASE (display_robot)
 {
-  hpp::model::HumanoidRobotShPtr humanoidRobot;
-  hpp::model::urdf::loadRobotModel (humanoidRobot, "romeo", "", "", "");
+  hpp::model::HumanoidRobotPtr_t humanoidRobot =
+    hpp::model::HumanoidRobot::create ("romeo");
+  hpp::model::urdf::loadRobotModel (humanoidRobot, "anchor", "romeo_description", "romeo", "", "");
 
   std::ofstream log ("./display-robot.log");
   log << *(humanoidRobot.get ()) << std::endl;

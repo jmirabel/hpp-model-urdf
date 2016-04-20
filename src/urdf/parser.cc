@@ -738,10 +738,22 @@ namespace hpp
 	  geometry = polyhedron;
 	}
 	// Handle the case where collision geometry is a cylinder
-	// Use FCL capsules for cylinders
 	else if (collision->geometry->type == ::urdf::Geometry::CYLINDER) {
 		  boost::shared_ptr < ::urdf::Cylinder> collisionGeometry
 		    = boost::dynamic_pointer_cast< ::urdf::Cylinder>
+		    (collision->geometry);
+	
+		  double radius = collisionGeometry->radius;
+		  double length = collisionGeometry->length;
+	
+		  // Create fcl capsule geometry.
+		  geometry = fcl::CollisionGeometryPtr_t
+		    (new fcl::Cylinder (radius, length));
+	}
+	// Handle the case where collision geometry is a capsule
+	else if (collision->geometry->type == ::urdf::Geometry::CAPSULE) {
+		  boost::shared_ptr < ::urdf::Capsule> collisionGeometry
+		    = boost::dynamic_pointer_cast< ::urdf::Capsule>
 		    (collision->geometry);
 	
 		  double radius = collisionGeometry->radius;
